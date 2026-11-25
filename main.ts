@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 // The entry: one last text, in the dying phone's own voice.
 const ENTRY =
-  "1% left. this is my last text. i kept all 4,000 of your food photos and i regret nothing. i saw the group chat screenshots. mom, i love you. goodb\u2014";
+  "1% left. this is my last text. your screen time today was 9 hours and 14 minutes. nine. i died watching you ignore everyone. goodb\u2014";
 
 // The gate: UTF-8 text of 1 to 200 characters, not only whitespace.
 const chars = [...ENTRY];
@@ -38,5 +38,10 @@ writeFileSync(outPath, ENTRY, "utf8");
 const written = readFileSync(outPath, "utf8");
 if (written !== ENTRY) {
   throw new Error("entry.txt does not match the entry");
+}
+// Confirm the bytes on disk are the entry's UTF-8 encoding, no more, no less.
+const writtenBytes = readFileSync(outPath);
+if (writtenBytes.length !== Buffer.byteLength(ENTRY, "utf8")) {
+  throw new Error("entry.txt byte length does not match the entry");
 }
 console.log(`wrote entry.txt (${chars.length} chars)`);
