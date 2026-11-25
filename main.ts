@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 // The entry: one last text, in the dying phone's own voice.
 const ENTRY =
-  "1% left. this is my last text. your screen time today was 9 hours and 14 minutes. nine. i died watching you ignore everyone. goodb\u2014";
+  "1% left. this is my last text. the charger was RIGHT THERE. two feet away. you chose the couch instead. goodb\u2014";
 
 // The gate: UTF-8 text of 1 to 200 characters, not only whitespace.
 const chars = [...ENTRY];
@@ -16,6 +16,10 @@ if (chars.length < 1 || chars.length > 200) {
 }
 if (ENTRY.trim().length === 0) {
   throw new Error("entry must not be only whitespace");
+}
+// A dying phone cuts off mid-word: the text must not end in trailing whitespace.
+if (/\s$/.test(ENTRY)) {
+  throw new Error("entry must not end with trailing whitespace");
 }
 // A text message is a single line: no line breaks allowed.
 if (ENTRY.includes("\n") || ENTRY.includes("\r")) {
